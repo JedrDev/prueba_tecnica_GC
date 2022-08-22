@@ -9,12 +9,18 @@ class AlgoritmoBombilla extends Controller
     public $cuartoiluminado = array();
 
     public function getBombillas(Request $request){
-        $cuarto = [
+        //Leer archivo y de ahi obtener el array para analizarlo
+
+        $cuarto = $this->leerArchivo('archivo.txt');
+
+
+
+        /*$cuarto = [
             [0,0,0,0],
             [0,0,0,1],
             [0,0,1,1],
             [1,0,0,0],
-        ];
+        ];*/
 
         //return $cuarto;
         $bombillas = 0;
@@ -256,8 +262,46 @@ class AlgoritmoBombilla extends Controller
     }
 
 
+    /**
+     * It takes an array of data, passes it to a view, and returns the rendered view as a string
+     *
+     * @param array The array you want to display in the table.
+     *
+     * @return The view is being returned.
+     */
     public function renderTable($array){
 
         return view('table', compact('array'))->render();
+    }
+
+    /**
+     * It reads a file and returns an array of the lines in the file
+     *
+     * @param archivo the file to read
+     *
+     * @return the array .
+     */
+    public function leerArchivo($archivo){
+        $cuarto = file($archivo);
+
+        for ($i = 0; $i < count($cuarto); $i++) {
+            $cuarto[$i] = explode(",", $cuarto[$i]);
+        }
+
+        //quitamos los espacios en blanco
+        for ($i = 0; $i < count($cuarto); $i++) {
+            for ($j = 0; $j < count($cuarto[$i]); $j++) {
+                $cuarto[$i][$j] = trim($cuarto[$i][$j]);
+            }
+        }
+
+        //quitamos los /r /n
+        for ($i = 0; $i < count($cuarto); $i++) {
+            for ($j = 0; $j < count($cuarto[$i]); $j++) {
+                $cuarto[$i][$j] = str_replace("\r", "", $cuarto[$i][$j]);
+                $cuarto[$i][$j] = str_replace("\n", "", $cuarto[$i][$j]);
+            }
+        }
+        return $cuarto;
     }
 }

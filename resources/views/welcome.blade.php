@@ -71,6 +71,9 @@
         $(document).ready(function(){
             $('#btnAccion').click(function(){
                 $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
                     url:'{{route("getBombillas")}}',
                     type: 'POST',
                     dataType: 'json',
