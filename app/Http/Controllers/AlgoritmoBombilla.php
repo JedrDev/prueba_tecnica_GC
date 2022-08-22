@@ -14,14 +14,6 @@ class AlgoritmoBombilla extends Controller
         $cuarto = $this->leerArchivo('archivo.txt');
 
 
-
-        /*$cuarto = [
-            [0,0,0,0],
-            [0,0,0,1],
-            [0,0,1,1],
-            [1,0,0,0],
-        ];*/
-
         //return $cuarto;
         $bombillas = 0;
 
@@ -34,143 +26,19 @@ class AlgoritmoBombilla extends Controller
             do {
                 $posicionHorizontal = 0;
                 do {
-                    //return !$this->esPared($cuarto[$posicionVertical][$posicionHorizontal]);
-                    if(!$this->esPared($cuarto[$posicionVertical][$posicionHorizontal])){
-
-                        if(!$this->hayParedEnSiguienteCasilla($cuarto[$posicionVertical], $posicionHorizontal)){
-                            //return 'No hay bombillas 2';
-                            if(!$this->hayParedAbajoDeLaCasilla($cuarto, $posicionVertical, $posicionHorizontal)){
-
-                                if(!$this->hayBombillaEnLaCasillaAnterior($cuarto, $posicionVertical, $posicionHorizontal)){
-
-                                    if(!$this->estaIluminadoEnLaCasillaAnterior($cuarto, $posicionVertical, $posicionHorizontal)){
-
-                                        if(!$this->hayBombillaArribaDeLaCasilla($cuarto, $posicionVertical, $posicionHorizontal)){
-
-                                            if(!$this->estaIluminadoArribaDeLaCasilla($cuarto, $posicionVertical, $posicionHorizontal)){
-                                                $bombillas++;
-                                                $this->cuartoiluminado[$posicionVertical][$posicionHorizontal] = 3;
-                                                //return $this->cuartoiluminado;
-                                            } else {
-                                                $this->cuartoiluminado[$posicionVertical][$posicionHorizontal] = 2;
-                                            }
-                                        } else {
-                                            $this->cuartoiluminado[$posicionVertical][$posicionHorizontal] = 2;
-                                        }
-                                    } else {
-                                        if(!$this->hayBombillaArribaDeLaCasilla($cuarto, $posicionVertical, $posicionHorizontal)){
-                                            if (!$this->estaIluminadoArribaDeLaCasilla($cuarto, $posicionVertical, $posicionHorizontal)) {
-                                                $bombillas++;
-                                                $this->cuartoiluminado[$posicionVertical][$posicionHorizontal] = 3;
-                                            } else {
-                                                $bombillas++;
-                                                $this->cuartoiluminado[$posicionVertical][$posicionHorizontal] = 3;
-                                            }
-                                        } else {
-                                            $this->cuartoiluminado[$posicionVertical][$posicionHorizontal] = 2;
-                                        }
-                                    }
-                                } else {
-                                    $this->cuartoiluminado[$posicionVertical][$posicionHorizontal] = 2;
-                                }
-                            } else {
-
-                                if (!$this->hayBombillaEnLaCasillaAnterior($cuarto, $posicionVertical, $posicionHorizontal)) {
-
-                                    if (!$this->estaIluminadoEnLaCasillaAnterior($cuarto, $posicionVertical, $posicionHorizontal)) {
-
-                                        if(!$this->hayBombillaArribaDeLaCasilla($cuarto, $posicionVertical, $posicionHorizontal)){
-                                            if(!$this->estaIluminadoArribaDeLaCasilla($cuarto, $posicionVertical, $posicionHorizontal)){
-                                                $bombillas++;
-                                                $this->cuartoiluminado[$posicionVertical][$posicionHorizontal] = 3;
-                                            } else {
-                                                $this->cuartoiluminado[$posicionVertical][$posicionHorizontal] = 2;
-                                            }
-                                        } else {
-                                            $this->cuartoiluminado[$posicionVertical][$posicionHorizontal] = 2;
-                                        }
-                                    } else{
-                                        if (!$this->hayBombillaArribaDeLaCasilla($cuarto, $posicionVertical, $posicionHorizontal)) {
-                                            if (!$this->estaIluminadoArribaDeLaCasilla($cuarto, $posicionVertical, $posicionHorizontal)) {
-                                                $bombillas++;
-                                                $this->cuartoiluminado[$posicionVertical][$posicionHorizontal] = 3;
-                                            } else {
-                                                $bombillas++;
-                                                $this->cuartoiluminado[$posicionVertical][$posicionHorizontal] = 3;
-                                            }
-                                        } else {
-                                            $this->cuartoiluminado[$posicionVertical][$posicionHorizontal] = 2;
-                                        }
-                                    }
-                                } else {
-                                    $this->cuartoiluminado[$posicionVertical][$posicionHorizontal] = 2;
-                                }
-
+                    switch ($cuarto[$posicionVertical][$posicionHorizontal]) {
+                        case '1':
+                            # No hago nada
+                            break;
+                        case '0':
+                            if (!$this->verificarBombillaEnVertical($posicionVertical,$posicionHorizontal) && !$this->verificarBombillaEnHorizontal($posicionVertical,$posicionHorizontal)) {
+                                $bombillas++;
+                                $this->cuartoiluminado[$posicionVertical][$posicionHorizontal] = 3;
                             }
-                        } else {
-                            if (!$this->hayParedAbajoDeLaCasilla($cuarto, $posicionVertical, $posicionHorizontal)) {
-
-                                if (!$this->hayBombillaEnLaCasillaAnterior($cuarto, $posicionVertical, $posicionHorizontal)) {
-
-                                    if (!$this->estaIluminadoEnLaCasillaAnterior($cuarto, $posicionVertical, $posicionHorizontal)) {
-                                        if (!$this->hayBombillaArribaDeLaCasilla($cuarto, $posicionVertical, $posicionHorizontal)) {
-                                            if (!$this->estaIluminadoArribaDeLaCasilla($cuarto, $posicionVertical, $posicionHorizontal)) {
-                                                $bombillas++;
-                                                $this->cuartoiluminado[$posicionVertical][$posicionHorizontal] = 3;
-                                            } else {
-                                                $this->cuartoiluminado[$posicionVertical][$posicionHorizontal] = 2;
-                                            }
-                                        } else {
-                                            $this->cuartoiluminado[$posicionVertical][$posicionHorizontal] = 2;
-                                        }
-                                    } else {
-                                        if (!$this->hayBombillaArribaDeLaCasilla($cuarto, $posicionVertical, $posicionHorizontal)) {
-                                            if (!$this->estaIluminadoArribaDeLaCasilla($cuarto, $posicionVertical, $posicionHorizontal)) {
-                                                $bombillas++;
-                                                $this->cuartoiluminado[$posicionVertical][$posicionHorizontal] = 3;
-                                            } else {
-                                                $bombillas++;
-                                                $this->cuartoiluminado[$posicionVertical][$posicionHorizontal] = 3;
-                                            }
-                                        } else {
-                                            $this->cuartoiluminado[$posicionVertical][$posicionHorizontal] = 2;
-                                        }
-                                    }
-                                } else {
-                                    $this->cuartoiluminado[$posicionVertical][$posicionHorizontal] = 2;
-                                }
-                            } else {
-                                if (!$this->hayBombillaEnLaCasillaAnterior($cuarto, $posicionVertical, $posicionHorizontal)) {
-
-                                    if (!$this->estaIluminadoEnLaCasillaAnterior($cuarto, $posicionVertical, $posicionHorizontal)) {
-                                        if(!$this->hayBombillaArribaDeLaCasilla($cuarto, $posicionVertical, $posicionHorizontal)){
-                                            if(!$this->estaIluminadoArribaDeLaCasilla($cuarto, $posicionVertical, $posicionHorizontal)){
-                                                $bombillas++;
-                                                $this->cuartoiluminado[$posicionVertical][$posicionHorizontal] = 3;
-                                            } else {
-                                                $this->cuartoiluminado[$posicionVertical][$posicionHorizontal] = 2;
-                                            }
-                                        } else {
-                                            $this->cuartoiluminado[$posicionVertical][$posicionHorizontal] = 2;
-                                        }
-                                    } else {
-                                        if(!$this->hayBombillaArribaDeLaCasilla($cuarto, $posicionVertical, $posicionHorizontal)){
-                                            if(!$this->estaIluminadoArribaDeLaCasilla($cuarto, $posicionVertical, $posicionHorizontal)){
-                                                $bombillas++;
-                                                $this->cuartoiluminado[$posicionVertical][$posicionHorizontal] = 3;
-                                            } else {
-                                                $bombillas++;
-                                                $this->cuartoiluminado[$posicionVertical][$posicionHorizontal] = 3;
-                                            }
-                                        } else {
-                                            $this->cuartoiluminado[$posicionVertical][$posicionHorizontal] = 2;
-                                        }
-                                    }
-                                } else {
-                                    $this->cuartoiluminado[$posicionVertical][$posicionHorizontal] = 2;
-                                }
-                            }
-                        }
+                            break;
+                        default:
+                            # code...
+                            break;
                     }
                     $posicionHorizontal++;
                 } while ($posicionHorizontal < count($cuarto[$posicionVertical]));
@@ -185,83 +53,101 @@ class AlgoritmoBombilla extends Controller
 
     }
 
-    public function esPared($cuarto){
-        if($cuarto == 1){
-            return "true";
-        }
-        return 0;
-    }
-
-    public function hayParedEnSiguienteCasilla($cuarto,$horizontal){
-        $horizontal++;
-        if($horizontal < count($cuarto)){
-            if($cuarto[$horizontal] == 1){
-                return "true";
+    public function paredIzquierda ($x,$y){
+        $y--;
+        if ($y < 0) {
+            return true;
+        } else{
+            if ($this->cuartoiluminado[$x][$y] == 1) {
+                return true;
+            } else {
+                return false;
             }
         }
-        return 0;
     }
 
-    public function hayParedAbajoDeLaCasilla($cuarto,$vertical,$horizontal){
-        $vertical++;
-        if($vertical < count($cuarto)){
-            if($cuarto[$vertical][$horizontal] == 1){
-                return "true";
+    public function paredDerecha ($x,$y){
+        $y++;
+        if ($y >= count($this->cuartoiluminado[$x])) {
+            return true;
+        } else{
+            if ($this->cuartoiluminado[$x][$y] == 1) {
+                return true;
+            } else {
+                return false;
             }
         }
-        return 0;
     }
 
-    public function hayBombillaEnLaCasillaAnterior($cuarto,$vertical,$horizontal){
-        $horizontal--;
-        //si son menos a 0 no hay nada
-        if(!$horizontal < 0){
-            if($cuartoiluminado[$vertical][$horizontal] == 3){
-                return "true";
+    public function paredArriba ($x,$y){
+        $x--;
+        if ($x < 0) {
+            return true;
+        } else{
+            if ($this->cuartoiluminado[$x][$y] == 1) {
+                return true;
+            } else {
+                return false;
             }
-            return 0;
         }
-        return 0;
     }
 
-
-    public function estaIluminadoEnLaCasillaAnterior($cuarto,$vertical,$horizontal){
-        $horizontal--;
-        //si son menos a 0 no hay nada
-        if(!$horizontal < 0){
-            if($cuartoiluminado[$vertical][$horizontal] == 2){
-                return "true";
+    public function paredAbajo ($x,$y){
+        $x++;
+        if ($x >= count($this->cuartoiluminado)) {
+            return true;
+        } else{
+            if ($this->cuartoiluminado[$x][$y] == 1) {
+                return true;
+            } else {
+                return false;
             }
-            return 0;
         }
-        return 0;
     }
 
-    public function hayBombillaArribaDeLaCasilla($cuarto,$vertical,$horizontal){
-        $vertical--;
-        //si son menos a 0 no hay nada
-        if(!$vertical < 0){
-            if($cuartoiluminado[$vertical][$horizontal] == 3){
-                return 0;
+    public function verificarBombillaEnVertical($x,$y){
+        //3 es para bombillas
+        $hayBombilla = false;
+        for ($i = 0; $i < count($this->cuartoiluminado); $i++) {
+            if ($this->cuartoiluminado[$i][$y] == 3) {
+                $hayBombilla = true;
             }
-            return 0;
-        }
-        return 0;
-    }
 
-    public function estaIluminadoArribaDeLaCasilla($cuarto,$vertical,$horizontal){
-        $vertical--;
-        //si son menos a 0 no hay nada
-        if(!$vertical < 0){
-            if($cuartoiluminado[$vertical][$horizontal] == 2){
-                return 0;
+            if ($hayBombilla) {
+                if (!$this->cuartoiluminado[$i][$y] == 3) {
+
+                    if($this->paredAbajo($i,$y)){
+                        $this->cuartoiluminado[$i][$y] = 2;
+                        break;
+                    }
+
+                    $this->cuartoiluminado[$i][$y] = 2;
+                }
             }
-            return 0;
         }
-        return 0;
+
+        return $hayBombilla;
     }
 
-
+    public function verificarBombillaEnHorizontal($x,$y){
+        //3 es para bombillas
+        $hayBombilla = false;
+        for ($i = 0; $i < count($this->cuartoiluminado[$x]); $i++) {
+            if ($this->cuartoiluminado[$x][$i] == 3) {
+                $hayBombilla = true;
+            }
+            if ($hayBombilla) {
+                if (!$this->cuartoiluminado[$x][$i] == 3) {
+                    if($this->paredDerecha($x,$i)){
+                        $this->cuartoiluminado[$x][$i] = 2;
+                        break;
+                    }
+                    $this->cuartoiluminado[$x][$i] = 2;
+                }
+            }
+        }
+        return $hayBombilla;
+    }
     /**
      * It takes an array of data, passes it to a view, and returns the rendered view as a string
      *
