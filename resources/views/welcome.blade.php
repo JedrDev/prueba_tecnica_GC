@@ -31,15 +31,58 @@
             <div class="row">
                 <div class="col-md-12">
                     <h1>Prueba tecnica</h1>
-                    <p></p>
+                    <p>
+                        Se envia un archivo de texto con una matriz de numeros, se debe mostrar en una tabla de html.
+                        <br>
+                        1 = Pared
+                        <br>
+                        0 = Espacio de habitacion
+                        <br>
+                        2 = Iluminacion
+                        <br>
+                        3 = Bombila
+                        <br>
+                    </p>
                 </div>
-                <div class="col-md-12">
+                <div class="col-md-12 d-flex justify-content-center mt-4 row">
+                    @csrf
+                    <div class="col-md-12 d-flex justify-content-center">
+                        <div class="form-group">
+                            <label for="file">Archivo de texto</label>
+                            <input type="file" class="form-control-file" id="file" name="file">
+                        </div>
+                    </div>
+                    <div class="col-md-12 d-flex justify-content-center mt-3">
+                        <button id="btnAccion">Analizar</button>
+                    </div>
+                </div>
+                <div class="col-md-12 mt-5">
                     <div id="divHabitacion"></div>
                 </div>
-                <div class="col-md-12">
+                <div class="col-md-12 mt-5">
                     <div id="divResultados"></div>
                 </div>
             </div>
         </div>
     </body>
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script>
+        //cargar contenido de la pagina
+        $(document).ready(function(){
+            $('#btnAccion').click(function(){
+                $.ajax({
+                    url:'{{route("getBombillas")}}',
+                    type: 'POST',
+                    dataType: 'json',
+                    success: function(data){
+                        console.log(data);
+                        //hacer una tabla con el json que me devuelve la consulta
+                        $('#divHabitacion').html(data.cuarto);
+                        $('#divResultados').html(data.cuartoiluminado);
+
+                    }
+                });
+            });
+        });
+    </script>
 </html>
