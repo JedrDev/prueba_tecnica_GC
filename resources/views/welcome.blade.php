@@ -45,6 +45,21 @@
                     </p>
                 </div>
                 <div class="col-md-12 d-flex justify-content-center mt-4 row">
+                    <p>
+                        Subir un archivo en el siguiente formato con extencion .txt
+                        <br>
+                        <br>
+                        0,0,0,0
+                        <br>
+                        1,0,0,1
+                        <br>
+                        1,0,0,1
+                        <br>
+                        0,0,0,0
+                        <br>
+                        <br>
+                        Si no se sube un archivo se usara el archivo por defecto que esta ubicado en la carpeta public del proyecto.
+                    </p>
                     @csrf
                     <div class="col-md-12 d-flex justify-content-center">
                         <div class="form-group">
@@ -70,19 +85,20 @@
         //cargar contenido de la pagina
         $(document).ready(function(){
             $('#btnAccion').click(function(){
+                var formData = new FormData();
+                formData.append('file', $('#file')[0].files[0]);
                 $.ajax({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     url:'{{route("getBombillas")}}',
                     type: 'POST',
-                    dataType: 'json',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
                     success: function(data){
-                        console.log(data);
-                        //hacer una tabla con el json que me devuelve la consulta
                         $('#divHabitacion').html(data.cuarto);
                         $('#divResultados').html(data.cuartoiluminado);
-
                     }
                 });
             });

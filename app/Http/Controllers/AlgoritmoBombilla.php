@@ -11,7 +11,17 @@ class AlgoritmoBombilla extends Controller
     public function getBombillas(Request $request){
         //Leer archivo y de ahi obtener el array para analizarlo
 
-        $cuarto = $this->leerArchivo('archivo.txt');
+        if (isset($request->file)) {
+            if ($request->hasFile('file')) {
+                $file = $request->file('file');
+                $filename = $file->getPathname();
+                $cuarto = $this->leerArchivo($filename);
+            }else{
+                $cuarto = $this->leerArchivo('archivo.txt');
+            }
+
+        }
+
 
 
         //return $cuarto;
